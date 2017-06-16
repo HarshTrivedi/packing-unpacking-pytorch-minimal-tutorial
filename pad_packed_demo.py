@@ -9,8 +9,6 @@ import itertools
 def flatten(l):
 	return list(itertools.chain.from_iterable(l))
 
-
-
 seqs = ['ghatmasala','nicela','chutpakodas']
 
 # make <pad> idx 0
