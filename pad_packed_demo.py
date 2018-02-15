@@ -9,7 +9,7 @@ import itertools
 def flatten(l):
 	return list(itertools.chain.from_iterable(l))
 
-seqs = ['ghatmasala','nicela','chutpakodas']
+seqs = ['ghatmasala','nicela','c-pakodas']
 
 # make <pad> idx 0
 vocab = ['<pad>'] + sorted(list(set(flatten(seqs))))
