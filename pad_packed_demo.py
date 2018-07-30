@@ -15,7 +15,7 @@ from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
 #  *  Step 7: Call pack_padded_sequence with embeded instances and sequence lengths
 #  *  Step 8: Forward with LSTM
 #  *  Step 9: Call unpack_padded_sequences if required / or just pick last hidden vector
-
+#  *  Summary of Shape Transformations
 
 # We want to run LSTM on a batch following 3 character sequences
 seqs = ['long_str',  # len = 8
@@ -50,7 +50,7 @@ lstm = LSTM(input_size=4, hidden_size=5, batch_first=True) # input_dim = 4, hidd
 # get the length of each seq in your batch
 seq_lengths = LongTensor(list(map(len, vectorized_seqs)))
 # seq_lengths => [ 8, 4,  6]
-# batch_sum_seq_lengths: 8 + 4 + 6 = 18
+# batch_sum_seq_len: 8 + 4 + 6 = 18
 # max_seq_len: 8
 
 seq_tensor = Variable(torch.zeros((len(vectorized_seqs), seq_lengths.max()))).long()
@@ -136,14 +136,14 @@ packed_input = pack_padded_sequence(embedded_seq_tensor, seq_lengths.cpu().numpy
 #                          [ 0.16031227 -0.08209462 -0.16297023  0.48121014]     i
 #                          [ 0.64004815  0.45813003  0.3476034  -0.03451729]     n
 #                          [-0.22739866 -0.45782727 -0.6643252   0.25129375]]    y
-# packed_input.data.shape : (batch_sum_seq_lengths X embedding_dim) = (18 X 4)
+# packed_input.data.shape : (batch_sum_seq_len X embedding_dim) = (18 X 4)
 #
 # packed_input.batch_sizes => [ 3,  3,  3,  3,  2,  2,  1,  1]
 # visualization :
 # l  o  n  g  _  s  t  r   #(long_str)
 # m  e  d  i  u  m         #(medium)
 # t  i  n  y               #(tiny)
-# 3  3  3  3  2  2  1  1   (sum = 18 [batch_sum_seq_lengths])
+# 3  3  3  3  2  2  1  1   (sum = 18 [batch_sum_seq_len])
 
 
 ## Step 8: Forward with LSTM ##
@@ -171,14 +171,14 @@ packed_output, (ht, ct) = lstm(packed_input)
 #                           [ 0.0864429   0.11173367  0.3158251   0.37537992  0.11876849]   i
 #                           [ 0.17885767  0.12713005  0.28287745  0.05562563  0.10871304]   n
 #                           [ 0.09486895  0.12772645  0.34048414  0.25930756  0.12044918]]  y
-# packed_output.data.shape : (batch_sum_seq_lengths X hidden_dim) = (33 X 5)
+# packed_output.data.shape : (batch_sum_seq_len X hidden_dim) = (33 X 5)
 
 # packed_output.batch_sizes => [ 3,  3,  3,  3,  2,  2,  1,  1] (same as packed_input.batch_sizes)
 # visualization :
 # l  o  n  g  _  s  t  r   #(long_str)
 # m  e  d  i  u  m         #(medium)
 # t  i  n  y               #(tiny)
-# 3  3  3  3  2  2  1  1   (sum = 18 [batch_sum_seq_lengths])
+# 3  3  3  3  2  2  1  1   (sum = 18 [batch_sum_seq_len])
 
 
 ## Step 9: Call unpack_padded_sequences if required / or just pick last hidden vector ##
@@ -218,3 +218,11 @@ output, input_sizes = pad_packed_sequence(packed_output, batch_first=True)
 
 # Or if you just want the final hidden state?
 print(ht[-1])
+
+## Summary of Shape Transformations ##
+##----------------------------------##
+
+# (batch_size X max_seq_len X embedding_dim) --> Sory by seqlen ---> (batch_size X max_seq_len X embedding_dim)
+# (batch_size X max_seq_len X embedding_dim) --->      Pack     ---> (batch_sum_seq_len X embedding_dim)
+# (batch_sum_seq_len X embedding_dim)        --->      LSTM     ---> (batch_sum_seq_len X hidden_dim)
+# (batch_sum_seq_len X hidden_dim)           --->    UnPack     ---> (batch_size X max_seq_len X hidden_dim)
