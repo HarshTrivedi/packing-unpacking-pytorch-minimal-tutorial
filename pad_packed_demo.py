@@ -171,7 +171,7 @@ packed_output, (ht, ct) = lstm(packed_input)
 #                           [ 0.0864429   0.11173367  0.3158251   0.37537992  0.11876849]   i
 #                           [ 0.17885767  0.12713005  0.28287745  0.05562563  0.10871304]   n
 #                           [ 0.09486895  0.12772645  0.34048414  0.25930756  0.12044918]]  y
-# packed_output.data.shape : (batch_sum_seq_len X hidden_dim) = (33 X 5)
+# packed_output.data.shape : (batch_sum_seq_len X hidden_dim) = (18 X 5)
 
 # packed_output.batch_sizes => [ 3,  3,  3,  3,  2,  2,  1,  1] (same as packed_input.batch_sizes)
 # visualization :
