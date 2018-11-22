@@ -33,9 +33,9 @@ vocab = ['<pad>'] + sorted([char for seq in seqs for char in seq])
 ### Step 2: Load indexed data (list of instances, where each instance is list of character indices)
 ```python
 vectorized_seqs = [[vocab.index(tok) for tok in seq]for seq in seqs]
-vectorized_seqa => [[6, 9, 8, 4, 1, 11, 12, 10],
-                    [12, 5, 8, 14],
-                    [7, 3, 2, 5, 13, 7]]
+# vectorized_seqs => [[6, 9, 8, 4, 1, 11, 12, 10],
+#                     [12, 5, 8, 14],
+#                     [7, 3, 2, 5, 13, 7]]
 ```
 
 ### Step 3: Make Model
@@ -221,7 +221,7 @@ print(ht[-1])
 ### Summary of Shape Transformations
 
 ```python
-# (batch_size X max_seq_len X embedding_dim) --> Sory by seqlen ---> (batch_size X max_seq_len X embedding_dim)
+# (batch_size X max_seq_len X embedding_dim) --> Sort by seqlen ---> (batch_size X max_seq_len X embedding_dim)
 # (batch_size X max_seq_len X embedding_dim) --->      Pack     ---> (batch_sum_seq_len X embedding_dim)
 # (batch_sum_seq_len X embedding_dim)        --->      LSTM     ---> (batch_sum_seq_len X hidden_dim)
 # (batch_sum_seq_len X hidden_dim)           --->    UnPack     ---> (batch_size X max_seq_len X hidden_dim)
