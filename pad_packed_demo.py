@@ -26,7 +26,7 @@ seqs = ['long_str',  # len = 8
 ## Step 1: Construct Vocabulary ##
 ##------------------------------##
 # make sure <pad> idx is 0
-vocab = ['<pad>'] + sorted([char for seq in seqs for char in seq])
+vocab = ['<pad>'] + sorted(set([char for seq in seqs for char in seq]))
 # => ['<pad>', '_', 'd', 'e', 'g', 'i', 'l', 'm', 'n', 'o', 'r', 's', 't', 'u', 'y']
 
 
