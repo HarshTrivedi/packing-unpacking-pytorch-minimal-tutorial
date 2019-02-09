@@ -211,7 +211,7 @@ output, input_sizes = pad_packed_sequence(packed_output, batch_first=True)
 #                            [ 0.          0.          0.          0.          0.        ]   <pad>
 #                            [ 0.          0.          0.          0.          0.        ]   <pad>
 #                            [ 0.          0.          0.          0.          0.        ]]] <pad>
-# output.shape : ( batch_size X max_seq_len X hidden_dim) = (3 X 18 X 4)
+# output.shape : ( batch_size X max_seq_len X hidden_dim) = (3 X 8 X 5)
 
 # Or if you just want the final hidden state?
 print(ht[-1])
