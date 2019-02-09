@@ -74,7 +74,7 @@ seq_tensor = seq_tensor[perm_idx]
 # seq_tensor => [[ 6  9  8  4  1 11 12 10]           # long_str
 #                [ 7  3  2  5 13  7  0  0]           # medium
 #                [12  5  8 14  0  0  0  0]]          # tiny
-# seq_tensor.shape : (batch_size X max_seq_len) = (3 X 15)
+# seq_tensor.shape : (batch_size X max_seq_len) = (3 X 8)
 
 
 ## Step 6: Embed the instances ##
